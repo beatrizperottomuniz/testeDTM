@@ -1,18 +1,14 @@
-
 import os
 from PIL import Image
 from tqdm import tqdm
 
 def combine_images(source_root, dest_root, phase):
-    # Caminhos de entrada (ajuste se suas pastas forem maiúsculas A/B)
-    dir_A = os.path.join(source_root, phase, 'a')
-    dir_B = os.path.join(source_root, phase, 'b')
+    dir_A = os.path.join(source_root, phase, 'A')
+    dir_B = os.path.join(source_root, phase, 'B')
 
-    # Caminho de saída
     dest_dir = os.path.join(dest_root, phase)
     os.makedirs(dest_dir, exist_ok=True)
 
-    # Verifica se as pastas existem (tenta maiúsculo se falhar)
     if not os.path.exists(dir_A):
         dir_A = os.path.join(source_root, phase, 'A')
         dir_B = os.path.join(source_root, phase, 'B')
@@ -21,8 +17,8 @@ def combine_images(source_root, dest_root, phase):
         print(f"ALERTA: Pasta {phase} não encontrada em {source_root}. Pulando...")
         return
 
-    # Lista imagens
-    images = sorted(os.listdir(dir_A))
+    all_images = sorted(os.listdir(dir_A))
+    images = all_images[:2000] #podemos limitar aqui
     print(f"Processando {phase}: {len(images)} imagens...")
 
     for img_name in tqdm(images):
@@ -33,24 +29,31 @@ def combine_images(source_root, dest_root, phase):
             im_A = Image.open(path_A).convert('RGB')
             im_B = Image.open(path_B).convert('RGB')
 
-            # Redimensiona B para caber em A se necessário
             if im_A.size != im_B.size:
                 im_B = im_B.resize(im_A.size, Image.BICUBIC)
 
-            # Cria a imagem combinada (Dobro da largura)
             w, h = im_A.size
-            combined = Image.new('RGB', (w * 2, h))
-            combined.paste(im_A, (0, 0))    # A na esquerda
-            combined.paste(im_B, (w, 0))    # B na direita
+            max_dim = max(w, h)
 
-            # Salva na pasta nova
+            pad_color = (128, 128, 128)
+            sq_A = Image.new('RGB', (max_dim, max_dim), pad_color)
+            sq_B = Image.new('RGB', (max_dim, max_dim), pad_color)
+
+            offset_x = (max_dim - w) // 2
+            offset_y = (max_dim - h) // 2
+
+            sq_A.paste(im_A, (offset_x, offset_y))
+            sq_B.paste(im_B, (offset_x, offset_y))
+
+            combined = Image.new('RGB', (max_dim * 2, max_dim))
+            combined.paste(sq_A, (0, 0))             # A na esquerda
+            combined.paste(sq_B, (max_dim, 0))       # B na direita
+
             save_path = os.path.join(dest_dir, img_name)
             combined.save(save_path)
 
 # --- Configuração ---
-# Onde estão seus dados agora (separados)
 INPUT_PATH = './rodosol_degradado'
-# Onde vamos salvar os dados prontos (juntos)
 OUTPUT_PATH = './rodosol_aligned'
 
 combine_images(INPUT_PATH, OUTPUT_PATH, 'train')

@@ -18,7 +18,8 @@ sys.path.append(os.getcwd())
 #else:
 #    print(f"A pasta {path_check} existe.")
 
-# # 4. Roda o treino
+
+# roda o treino
 # !python train.py \
 #   --croot ./datasets/rodosol_aligned \
 #   --name rodosol_v1 \
@@ -28,4 +29,6 @@ sys.path.append(os.getcwd())
 #   --gpu_ids 0 \
 #   --no_flip \
 #   --preprocess_mode scale_width_and_crop \
-#   --load_size 286 --crop_size 256
+#   --load_size 256 \
+#   --crop_size 256 \
+#   --aspect_ratio 1.0
