@@ -37,7 +37,7 @@
 
 
 # Arquivo que está dando erro
-arquivo_modelo = 'dmt/TSIT/models/pix2pix_model.py'
+arquivo_modelo = './dmt/TSIT/models/pix2pix_model.py'
 
 with open(arquivo_modelo, 'r') as f:
     codigo = f.read()

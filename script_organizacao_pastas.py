@@ -11,11 +11,11 @@ from tqdm import tqdm
 
 # --- CONFIGURAÇÕES ---
 # Onde estão as pastas 'cars-br', 'cars-me', etc. e o arquivo split.txt
-DATASET_ROOT = "tbFcZE-RodoSol-ALPR"
+DATASET_ROOT = "./tbFcZE-RodoSol-ALPR"
 SPLIT_FILE = os.path.join(DATASET_ROOT, "split.txt")
 
 # Onde será salvo o dataset pronto para o DMT
-OUTPUT_ROOT = "rodosol_degradado"
+OUTPUT_ROOT = "./rodosol_degradado"
 
 # Tamanho final da placa recortada (Largura, Altura)
 # 128x64 é um bom padrão para modelos de difusão (potência de 2)

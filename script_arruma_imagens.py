@@ -49,9 +49,9 @@ def combine_images(source_root, dest_root, phase):
 
 # --- Configuração ---
 # Onde estão seus dados agora (separados)
-INPUT_PATH = 'rodosol_degradado'
+INPUT_PATH = './rodosol_degradado'
 # Onde vamos salvar os dados prontos (juntos)
-OUTPUT_PATH = 'rodosol_aligned'
+OUTPUT_PATH = './rodosol_aligned'
 
 combine_images(INPUT_PATH, OUTPUT_PATH, 'train')
 combine_images(INPUT_PATH, OUTPUT_PATH, 'test')
