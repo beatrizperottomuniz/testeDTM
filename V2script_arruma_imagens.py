@@ -19,7 +19,7 @@ def combine_images(source_root, dest_root, phase):
         return
 
     all_images = sorted(os.listdir(dir_A))
-    images = all_images[:2000] #podemos limitar aqui
+    images = all_images #[:2000] #podemos limitar aqui
     print(f"Processando {phase}: {len(images)} imagens...")
 
     for img_name in tqdm(images):

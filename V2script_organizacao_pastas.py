@@ -73,6 +73,8 @@ def processar_dataset():
                 ann = json.load(f)
             corners_dict = ann["corners"]
 
+            corners_dict = {k.replace(".png.png", ".png"): v for k, v in ann["corners"].items()} 
+
             track_id = track_name.replace("track_", "")
 
             for idx in range(1, 6):
